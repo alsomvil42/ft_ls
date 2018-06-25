@@ -6,17 +6,16 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:33:53 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/02/21 11:16:50 by alsomvil         ###   ########.fr       */
+/*   Updated: 2017/12/06 04:50:45 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-void	ft_putnbr_fd(long nb, int fd)
+void	ft_putnbr_fd(int nb, int fd)
 {
-	long		nbr;
-	
+	int nbr;
+
 	if (nb == -2147483648)
 	{
 		ft_putnbr_fd(-2, fd);

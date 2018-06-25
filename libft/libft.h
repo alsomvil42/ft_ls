@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 20:04:23 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/02/21 15:23:25 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/21 13:10:26 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# define BUFF_SIZE 4096
+# define OPEN_MAX 100
+
 typedef struct		s_list
 {
 	void			*content;
@@ -23,7 +26,6 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-char				*ft_strndup(const char *s1, int n);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
@@ -67,6 +69,7 @@ int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s);
+int					get_next_line(const int fd, char **line);
 char				**ft_strsplit(char const *s, char c);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
@@ -74,10 +77,10 @@ void				ft_putendl(char const *s);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
-void				ft_putnbr_fd(long n, int fd);
-void				ft_putnbr(long n);
+void				ft_putnbr_fd(int n, int fd);
+void				ft_putnbr(int n);
 char				*ft_strrev(char *str);
-char				*ft_itoabase(unsigned long long nb, int base);
+char				*ft_itoabase(int nb, int base);
 char				*ft_itoa(int nb);
 t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));

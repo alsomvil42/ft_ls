@@ -6,37 +6,42 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 17:04:04 by alsomvil          #+#    #+#              #
-#    Updated: 2018/05/31 11:34:45 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/06/21 14:40:11 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = ft_insertstr.c \
-	  ft_strcmp_ls.c \
-	  ft_ls.c \
+SRC = main.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS =  -Wall -Wextra -Werror
 NAME = ft_ls
+_GREEN = $ \033[32m
+_YELLOW = $ \033[33m
+_RED = $ \033[31m
+_END = $ \033[0m
 
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	make -C libft
-	#gcc $(FLAGS) -I /usr/local/include *.c libft/*.a -L /usr/local/lib -lmlx -framework OpenGL -framework Appkit
-	gcc $(FLAGS) -I /usr/local/include *.c libft/*.a -L /usr/local/lib -lX11 -lXext -lm 
+	@$(MAKE) -C libft
+	@gcc $(CFLAGS) -o $(NAME) -I /usr/local/include/ $(OBJ) libft/libft.a
+	@echo "$(_GREEN)ft_ls compiled$(_END)"
 
 %.o: %.c
-	gcc $(FLAGS) -c -I include -I libft -I minilibx $^ -o $@
+	@$(CC) -c $(CFLAGS) -I. $< -o $@
 
-clean :
-	make clean -C libft
-	rm -rf *.o 
+clean:
+	@$(MAKE) clean -C libft
+	@rm -f $(OBJ)
+	@echo "libft cleaned"
+	@echo "ft_ls cleaned"
 
 fclean: clean
-	make fclean -C libft
-	rm -rf $(NAME)
+	@$(MAKE) fclean -C libft
+	@rm -f $(NAME)
+	@echo "ft_ls fcleaned"
 
 re: fclean all
 
-.PHONY: all clean fclean re norme
+.PHONY: libft clean fclean all re

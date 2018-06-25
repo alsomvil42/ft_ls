@@ -6,7 +6,7 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/14 17:27:56 by alsomvil          #+#    #+#              #
-#    Updated: 2018/01/12 03:18:42 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/06/21 13:09:16 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,6 @@ SRC =	ft_atoi.c \
 		ft_strcpy.c \
 		ft_strdel.c \
 		ft_strdup.c \
-		ft_strndup.c \
 		ft_strequ.c \
 		ft_striter.c \
 		ft_striteri.c \
@@ -73,7 +72,9 @@ SRC =	ft_atoi.c \
 		ft_strtrim.c \
 		ft_swap.c \
 		ft_tolower.c \
-		ft_toupper.c 
+		ft_toupper.c \
+		get_next_line.c \
+
 OBJ = $(SRC:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror

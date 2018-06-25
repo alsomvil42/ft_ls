@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 char	*ft_strcpy(char *dest, const char *src)
 {
@@ -21,7 +20,6 @@ char	*ft_strcpy(char *dest, const char *src)
 	while (src[i])
 	{
 		dest[i] = src[i];
-		printf("%s\n", src);
 		i++;
 	}
 	dest[i] = src[i];
