@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_morelongchar.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 12:37:51 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/11/26 12:50:11 by hbruvry          ###   ########.fr       */
+/*   Created: 2018/06/27 17:16:19 by alsomvil          #+#    #+#             */
+/*   Updated: 2018/06/27 17:20:41 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft.h"
+#include "ft_ls.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int		ft_morelongchar(char **tab)
 {
-	size_t			i;
-	unsigned char	*ps1;
-	unsigned char	*ps2;
+	int		i;
+	int		ret;
+	int		len;
 
 	i = 0;
-	ps1 = (unsigned char*)s1;
-	ps2 = (unsigned char*)s2;
-	while (ps1[i] != '\0' && ps2[i] != '\0' && ps1[i] == ps2[i])
+	ret = 0;
+	len = 0;
+	while (tab[i])
 	{
+		if ((ret = ft_strlen(tab[i])) > len)
+			len = ret;
 		i++;
 	}
-	return (ps1[i] - ps2[i]);
+	return (len);
 }

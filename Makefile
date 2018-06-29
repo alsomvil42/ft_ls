@@ -6,11 +6,17 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 17:04:04 by alsomvil          #+#    #+#              #
-#    Updated: 2018/06/21 14:40:11 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/06/28 08:43:02 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = main.c \
+	  apply_option.c \
+	  check_tab_doss.c \
+	  ft_morelongchar.c \
+	  create_big_tab.c \
+	  order_bigtab.c \
+	  ft_affich_tab.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc

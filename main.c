@@ -6,98 +6,74 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 14:21:49 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/25 15:06:15 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/06/29 04:57:07 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include <stdio.h>
 
-void	ft_parce_doss(int ac, char **av, t_info *info)
+char	**stock_arg(int ac, char **av, t_temp *saveoption)
+{
+	int		nb_doss;
+	char	**tabdoss;
+	int		i;
+	
+	i = 0;
+	tabdoss = check_tab_doss(ac, av, saveoption);
+	tabdoss = order_tab(tabdoss, saveoption);
+	/*while (tabdoss[i])
+	{
+		printf("%s\n", tabdoss[i]);
+		i++;
+	}*/
+	return (tabdoss);
+}
+
+void	check_option(char **av, t_temp *saveoption)
 {
 	int		i;
-	struct stat		buf;
-	t_info			*temp;
-	char		*test;
 
 	i = 0;
-	av[0] = "./";
-	temp = info;
-	while (av[i])
+	if (av[1] && av[1][0] == '-')
 	{
-		stat(av[i], &buf);
-		//printf("%s\n", temp->name);
-		temp->name = ft_strdup(av[i]);
-		temp->nbfichier = buf.st_nlink;
-		//printf("%s\n", temp->name);
-		//printf("%d\n", temp->nbfichier);
-		if (av[i + 1])
-			temp->next = malloc(sizeof(t_info) * 1);
-		else
+		while (av[1][i])
 		{
-			temp->next = NULL;
-			return ;
+			if (av[1][i] == 'l')
+				saveoption->l = 1;
+			if (av[1][i] == 'r')
+				saveoption->r = 1;
+			if (av[1][i] == 'a')
+				saveoption->a = 1;
+			if (av[1][i] == 't')
+				saveoption->t = 1;
+			if (av[1][i] == 'R')
+				saveoption->R = 1;
+			i++;
 		}
-		temp = temp->next;
-		i++;
 	}
 }
 
-void	ft_parce_arg(int ac, char **av, t_info *info)
+void	initstruct(t_temp *saveoption)
 {
-	//if (no_option(ac, av) == 1)
-	//{
-		ft_parce_doss(ac, av, info);
-	//	ft_order_doss();
-	//}
-	//else
-	//{
-	//}
-}
-
-void	simple_ls(char *av)
-{
-	DIR				*dirp;
-	int				ret;
-	const char		*test;
-	struct stat		buf;
-	struct dirent	*ent;
-
-
-	printf("%s\n", av);
-	if ((dirp = opendir(av)) == NULL)
-	{
-		ft_putstr("erreur1\n");
-		exit (0);
-	}
-	ret = stat(av, &buf);
-	printf("%d\n", buf.st_dev);
-	if (ret < 0)
-	{
-		ft_putstr("erreur\n");
-		exit (0);
-	}
-	while ((ent = readdir(dirp)) != NULL)
-	{
-		printf("%s\n", ent->d_name);
-	}
-	//printf("%d\n", ret);
+	saveoption->l = 0;
+	saveoption->r = 0;
+	saveoption->a = 0;
+	saveoption->t = 0;
+	saveoption->R = 0;
+	saveoption->lentab = 0;
 }
 
 int		main(int ac, char **av)
 {
 	t_info	info;
-	t_info	begin_info;
+	t_temp	saveoption;
+	char	**tabdoss;
 
-	//begin_info = info;
-	ft_parce_arg(ac, av, &info);
-	/*if (ac > 1)
-		simple_ls(av[1]);
-	else if (ac == 2)
-	{
-	}
-	else if (ac > 2)
-	{
-	}*/
+	initstruct(&saveoption);
+	saveoption.begin_info = &info;
+	check_option(av, &saveoption);
+	tabdoss = stock_arg(ac, av, &saveoption);
+	apply_option(tabdoss, &saveoption);
+	free(tabdoss);
 	return (0);
 }
