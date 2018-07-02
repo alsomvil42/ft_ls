@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 14:21:49 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/29 04:57:07 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/02 04:46:58 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,10 @@ char	**stock_arg(int ac, char **av, t_temp *saveoption)
 	int		nb_doss;
 	char	**tabdoss;
 	int		i;
-	
+
 	i = 0;
 	tabdoss = check_tab_doss(ac, av, saveoption);
 	tabdoss = order_tab(tabdoss, saveoption);
-	/*while (tabdoss[i])
-	{
-		printf("%s\n", tabdoss[i]);
-		i++;
-	}*/
 	return (tabdoss);
 }
 
@@ -73,7 +68,10 @@ int		main(int ac, char **av)
 	saveoption.begin_info = &info;
 	check_option(av, &saveoption);
 	tabdoss = stock_arg(ac, av, &saveoption);
-	apply_option(tabdoss, &saveoption);
+	if (!saveoption.l && !saveoption.R)
+		apply_small_option(tabdoss, &saveoption);
+	else if (!saveoption.R)
+		apply_long_option(tabdoss, &saveoption);
 	free(tabdoss);
 	return (0);
 }

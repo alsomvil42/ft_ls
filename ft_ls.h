@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 14:22:50 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/29 04:57:05 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/02 04:10:50 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,27 @@ typedef struct			s_temp
 	int		t;
 	int		R;
 	char	***bigtab;
+	char	***tab_l;
 	int		lentab;
 	struct s_info	*begin_info;
 }						t_temp;
 
 void	apply_option(char **tabdoss, t_temp *saveoption);
+void	apply_small_option(char **tabdoss, t_temp *saveoption);
+void	apply_long_option(char **tabdoss, t_temp *saveoption);
 char	**check_tab_doss(int ac, char **av, t_temp *saveoption);
 char	**order_tab(char **tab, t_temp *saveoption);
 int		ft_morelongchar(char **tab);
 char	***createbigtab(int nb, char *tab);
+char	***create_tab_l(int nb, char *tab, t_temp *saveoption);
 void	order_bigtab(t_temp *saveoption);
 void	ft_affich_tab(t_temp *saveoption);
+char	*creation_date(char *tab, struct stat *buf);
+char	*block_allocated(char *tab, struct stat *buf);
+char	*group_id(char *tab, struct stat *buf);
+char	*user_id(char *tab, struct stat *buf);
+char	*nb_node(char *tab, struct stat *buf);
+char	*checkdroits(char *tab, struct stat *buf);
 
 char	***fill_bigtab(int nb, char *tab, char ***bigtab, t_temp *saveoption);
 

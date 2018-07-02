@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 16:26:05 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/29 05:38:15 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/02 04:42:24 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ void	apply_long_optionR(char **tabdoss, t_temp *saveoption)
 
 void	apply_small_option(char **tab, t_temp *saveoption)
 {
-	int		i;
+	int				i;
 	struct dirent	*ent;
-	DIR			*dirp;
-	int			nb;
-	int		j;
+	DIR				*dirp;
+	int				nb;
 
 	nb = 0;
 	i = 0;
@@ -34,12 +33,10 @@ void	apply_small_option(char **tab, t_temp *saveoption)
 	{
 		dirp = opendir(tab[i]);
 		while ((ent = readdir(dirp)) != NULL)
-		{
 			if (!saveoption->a && ent->d_name[0] != '.')
 				nb++;
 			else if (saveoption->a)
 				nb++;
-		}
 		if (saveoption->lentab >= 2)
 			printf("%s:\n", tab[i]);
 		if (nb != 0)
@@ -62,36 +59,31 @@ void	apply_small_option(char **tab, t_temp *saveoption)
 	}
 }
 
-void	apply_long_option(char **tabdoss, t_temp *saveoption)
+void	apply_long_option(char **tab, t_temp *saveoption)
 {
-}
+	int				i;
+	struct dirent	*ent;
+	DIR				*dirp;
+	int				nb;
 
-void	apply_option(char **tabdoss, t_temp *saveoption)
-{
-	if (!saveoption->R)
+	nb = 0;
+	i = 0;
+	while (tab[i])
 	{
-		if (saveoption->l == 1)
+		dirp = opendir(tab[i]);
+		while ((ent = readdir(dirp)) != NULL)
+			if (!saveoption->a && ent->d_name[0] != '.')
+				nb++;
+			else if (saveoption->a)
+				nb++;
+		if (nb != 0)
 		{
-			apply_long_option(tabdoss, saveoption);
-			return ;
+			saveoption->tab_l = create_tab_l(nb, tab[i], saveoption);
+			free(ent);
 		}
-		else
-		{
-			apply_small_option(tabdoss, saveoption);
-			return ;
-		}
-	}
-	else
-	{
-		if (saveoption->l == 1)
-		{
-			apply_long_optionR(tabdoss, saveoption);
-			return ;
-		}
-		else
-		{
-			apply_small_optionR(tabdoss, saveoption);
-			return ;
-		}
+		if (tab[i + 1])
+			printf("\n");
+		nb = 0;
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 19:21:43 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/29 08:10:47 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/02 04:43:14 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	***fill_bigtab(int nb, char *tab, char ***bigtab, t_temp *saveoption)
 {
-	int		i;
-	int		j;
+	int				i;
+	int				j;
 	struct dirent	*ent;
-	DIR		*dirp;
+	DIR				*dirp;
 
 	i = 0;
 	j = 0;
@@ -41,10 +41,10 @@ char	***fill_bigtab(int nb, char *tab, char ***bigtab, t_temp *saveoption)
 
 char	***createbigtab(int nb, char *tab)
 {
-	DIR		*dirp;
-	int		i;
-	int		j;
-	char	***bigtab;
+	DIR				*dirp;
+	int				i;
+	int				j;
+	char			***bigtab;
 	struct dirent	*ent;
 
 	dirp = opendir(tab);
@@ -60,7 +60,8 @@ char	***createbigtab(int nb, char *tab)
 	while (i < 3)
 	{
 		while (j < nb && ((ent = readdir(dirp)) != NULL))
-			bigtab[i][j++] = malloc(sizeof(char) * (ft_strlen(ent->d_name) + 1));
+			bigtab[i][j++] = malloc(sizeof(char)
+					* (ft_strlen(ent->d_name) + 1));
 		j = 0;
 		i++;
 	}
