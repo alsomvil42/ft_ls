@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 19:21:43 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/02 04:43:14 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/03 01:01:08 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	***fill_bigtab(int nb, char *tab, char ***bigtab, t_temp *saveoption)
 	return (bigtab);
 }
 
-char	***createbigtab(int nb, char *tab)
+char	***createbigtab(int nb, char *tab, t_temp *saveoption)
 {
 	DIR				*dirp;
 	int				i;
@@ -49,21 +49,19 @@ char	***createbigtab(int nb, char *tab)
 
 	dirp = opendir(tab);
 	i = 0;
-	j = 0;
 	bigtab = malloc(sizeof(char **) * 4);
 	while (i < 3)
-	{
-		bigtab[i] = malloc(sizeof(char *) * (nb + 1));
-		i++;
-	}
+		bigtab[i++] = malloc(sizeof(char *) * (nb + 1));
 	i = 0;
 	while (i < 3)
 	{
+		j = 0;
 		while (j < nb && ((ent = readdir(dirp)) != NULL))
 			bigtab[i][j++] = malloc(sizeof(char)
 					* (ft_strlen(ent->d_name) + 1));
-		j = 0;
 		i++;
 	}
+	saveoption->bigtab = bigtab;
+	fill_bigtab(nb, tab, saveoption->bigtab, saveoption);
 	return (bigtab);
 }

@@ -6,60 +6,109 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 16:26:05 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/02 04:42:24 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/05 07:20:24 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	apply_small_optionR(char **tabdoss, t_temp *saveoption)
+char	**create_tab_test(char *namedoss, DIR *dirdoss, t_temp *saveoption)
+{
+	char	**tab;
+	struct dirent	*ent;
+	int		nb;
+	int		i;
+	char	*directiontemp;
+
+	i = 0;
+	nb = 0;
+	tab = NULL;
+	directiontemp = ft_strdup(namedoss);
+	while ((ent = readdir(dirdoss)) != NULL)
+		nb++;
+	tab = malloc(sizeof(char *) * (nb + 1));
+	dirdoss = opendir(namedoss);
+	while (i < nb && ((ent = readdir(dirdoss)) != NULL))
+	{
+		if (ent->d_name[0] != '.')
+		{
+			namedoss = ft_strjoin(directiontemp, "/");
+			namedoss = ft_strjoin(namedoss, ent->d_name);
+			tab[i] = ft_strdup(namedoss);
+			i++;
+		}
+	}
+	tab[i] = NULL;
+	tab = order_tab(tab, saveoption);
+	return (tab);
+}
+
+void	apply_small_option_r(char *tabdoss, t_temp *saveoption)
+{
+	int		i;
+	DIR		*dirp;
+	char	**tab;
+
+	i = 0;
+	if (!saveoption->l)
+		apply_small_option(tabdoss, saveoption);
+	else
+		apply_long_option(tabdoss, saveoption);
+	dirp = opendir(tabdoss);
+	if (dirp != NULL)
+	{
+		tab = create_tab_test(tabdoss, dirp, saveoption);
+		while (tab[i])
+		{
+			//printf("\n");
+			if (opendir(tab[i]) != NULL)
+				printf("\n%s: \n", tab[i]);
+			apply_small_option_r(tab[i], saveoption);
+			//if (tab[i + 1])
+			//	printf("\n");
+			i++;
+		}
+	}
+}
+
+void	apply_long_option_r(char *tabdoss, t_temp *saveoption)
 {
 }
 
-void	apply_long_optionR(char **tabdoss, t_temp *saveoption)
-{
-}
-
-void	apply_small_option(char **tab, t_temp *saveoption)
+void	apply_small_option(char *tab, t_temp *saveoption)
 {
 	int				i;
 	struct dirent	*ent;
 	DIR				*dirp;
 	int				nb;
 
-	nb = 0;
 	i = 0;
-	while (tab[i])
+	nb = 0;
+	dirp = opendir(tab);
+	if (dirp == NULL)
 	{
-		dirp = opendir(tab[i]);
+		//printf("La direction %s est un fichier\n", tab);
+		i++;
+	}
+	else
+	{
+		//printf("%d\n", dirp);
 		while ((ent = readdir(dirp)) != NULL)
-			if (!saveoption->a && ent->d_name[0] != '.')
+			if ((!saveoption->a && ent->d_name[0] != '.') || saveoption->a)
 				nb++;
-			else if (saveoption->a)
-				nb++;
-		if (saveoption->lentab >= 2)
-			printf("%s:\n", tab[i]);
 		if (nb != 0)
 		{
 			if (nb % 3 > 0)
 				nb = (nb / 3) + 1;
 			else
 				nb = nb / 3;
-			saveoption->bigtab = createbigtab(nb, tab[i]);
-			saveoption->bigtab = fill_bigtab(nb, tab[i], saveoption->bigtab, saveoption);
-			order_bigtab(saveoption);
-			ft_affich_tab(saveoption);
-			free(saveoption->bigtab);
-			free(ent);
+			createbigtab(nb, tab, saveoption);
+			order_bigtab(saveoption, tab);
 		}
-		if (tab[i + 1])
-			printf("\n");
-		nb = 0;
-		i++;
 	}
 }
 
-void	apply_long_option(char **tab, t_temp *saveoption)
+void	apply_long_option(char *tab, t_temp *saveoption)
 {
 	int				i;
 	struct dirent	*ent;
@@ -68,9 +117,14 @@ void	apply_long_option(char **tab, t_temp *saveoption)
 
 	nb = 0;
 	i = 0;
-	while (tab[i])
+	dirp = opendir(tab);
+	if (dirp == NULL)
 	{
-		dirp = opendir(tab[i]);
+		//printf("La direction %s est un fichier\n", tab);
+		i++;
+	}
+	else
+	{
 		while ((ent = readdir(dirp)) != NULL)
 			if (!saveoption->a && ent->d_name[0] != '.')
 				nb++;
@@ -78,11 +132,9 @@ void	apply_long_option(char **tab, t_temp *saveoption)
 				nb++;
 		if (nb != 0)
 		{
-			saveoption->tab_l = create_tab_l(nb, tab[i], saveoption);
+			saveoption->tab_l = create_tab_l(nb, tab, saveoption);
 			free(ent);
 		}
-		if (tab[i + 1])
-			printf("\n");
 		nb = 0;
 		i++;
 	}

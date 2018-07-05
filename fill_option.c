@@ -6,59 +6,66 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/02 00:50:49 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/02 07:18:52 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/03 23:19:22 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include <time.h>
-#include <pwd.h>
-#include <grp.h>
-#define NANO 1000000000L
 
-char	*modif_droits(char *temp)
+char	*convert_hour(int hour, int min)
 {
-	int		len;
-	int		i;
-	int		j;
-	char	*str;
-	char	*bin;
+	char	*temp_hour;
+	char	*temp_min;
 
-	str = ft_strdup("-rwxrwxrwx-");
-	len = ft_strlen(temp) - 1;
-	i = len;
-	printf("%d\n", (temp[len] - 48));
-	printf("%d\n", 5 * 0b101);
-	exit (0);
-	bin = ft_itoabase((temp[len] - 48), 2);
-	i--;
-	while (i > len - 3)
-	{
-		bin = ft_strjoin(ft_itoabase((temp[i] - 48), 2), bin);
-		i--;
-	}
-	//printf("I = %d  ", i);
-	//printf("%c\n", temp[i - 2]);
-	if (i - 2 < 0)
-		str[0] = 'd';
-	i = 0;
-	j = 1;
-	while (bin[i])
-	{
-		if (bin[i++] == '0')
-			str[j] = '-';
-		j++;
-	}
-	return (str);
+	if (hour < 10)
+		temp_hour = ft_strjoin("0", ft_itoa(hour));
+	else
+		temp_hour = ft_itoa(hour);
+	if (min < 10)
+		temp_min = ft_strjoin("0", ft_itoa(min));
+	else
+		temp_min = ft_itoa(min);
+	temp_hour = ft_strjoin(temp_hour, ":");
+	temp_hour = ft_strjoin(temp_hour, temp_min);
+	return (temp_hour);
 }
 
-char	*checkdroits(char *tab, struct stat *buf)
+char	*convert_day(int nbday)
 {
-	char		*temp;
+	if (ft_strlen(ft_itoa(nbday)) == 1)
+	{
+		return (ft_strjoin(" ", ft_itoa(nbday)));
+	}
+	return (ft_itoa(nbday));
+}
 
-	temp = ft_strdup(ft_itoabase(buf->st_mode, 8));
-	temp = modif_droits(temp);
-	return (temp);
+char	*convert_mon(int nbmon)
+{
+	if (nbmon == 0)
+		return (ft_strdup("Jan"));
+	if (nbmon == 1)
+		return (ft_strdup("Feb"));
+	if (nbmon == 2)
+		return (ft_strdup("Mar"));
+	if (nbmon == 3)
+		return (ft_strdup("Apr"));
+	if (nbmon == 4)
+		return (ft_strdup("May"));
+	if (nbmon == 5)
+		return (ft_strdup("Jun"));
+	if (nbmon == 6)
+		return (ft_strdup("Jul"));
+	if (nbmon == 7)
+		return (ft_strdup("Aug"));
+	if (nbmon == 8)
+		return (ft_strdup("Sep"));
+	if (nbmon == 9)
+		return (ft_strdup("Oct"));
+	if (nbmon == 10)
+		return (ft_strdup("Nov"));
+	if (nbmon == 11)
+		return (ft_strdup("Dec"));
+	return (NULL);
 }
 
 char	*nb_node(char *tab, struct stat *buf)
@@ -105,13 +112,10 @@ char	*creation_date(char *tab, struct stat *buf)
 
 	fff = buf->st_mtime;
 	p = localtime(&fff);
-	temp = ft_strjoin(ft_itoa(p->tm_mday), " ");
-	temp = ft_strjoin(temp, ft_itoa(p->tm_mon));
+	temp = ft_strjoin(convert_mon(p->tm_mon), " ");
+	temp = ft_strjoin(temp, convert_day(p->tm_mday));
 	temp = ft_strjoin(temp, " ");
-	temp = ft_strjoin(temp, ft_itoa(1900 + p->tm_year));
-	temp = ft_strjoin(temp, " ");
-	temp = ft_strjoin(temp, ft_itoa(p->tm_hour));
-	temp = ft_strjoin(temp, ":");
-	temp = ft_strjoin(temp, ft_itoa(p->tm_min));
+	temp = ft_strjoin(temp, convert_hour(p->tm_hour, p->tm_min));
+	//temp = ft_strjoin(temp, ft_itoa(1900 + p->tm_year));
 	return (temp);
 }

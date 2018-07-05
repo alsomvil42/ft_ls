@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 14:21:49 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/02 04:46:58 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/07/05 07:19:35 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,36 @@ void	initstruct(t_temp *saveoption)
 	saveoption->t = 0;
 	saveoption->R = 0;
 	saveoption->lentab = 0;
+	saveoption->totalblock = 0;
 }
 
 int		main(int ac, char **av)
 {
 	t_info	info;
 	t_temp	saveoption;
+	int		i;
 	char	**tabdoss;
 
+	i = 0;
 	initstruct(&saveoption);
 	saveoption.begin_info = &info;
 	check_option(av, &saveoption);
 	tabdoss = stock_arg(ac, av, &saveoption);
-	if (!saveoption.l && !saveoption.R)
-		apply_small_option(tabdoss, &saveoption);
-	else if (!saveoption.R)
-		apply_long_option(tabdoss, &saveoption);
+	while (tabdoss[i])
+	{
+		if (tabdoss[i + 1])
+			printf("%s: \n", tabdoss[i]);
+		if (tabdoss[i - 1])
+			printf("\n%s: \n", tabdoss[i]);
+		if (!saveoption.l && !saveoption.R)
+			apply_small_option(tabdoss[i], &saveoption);
+		else if (!saveoption.R)
+			apply_long_option(tabdoss[i], &saveoption);
+		//else if (!saveoption.l && saveoption.R)
+		else if (saveoption.R)
+			apply_small_option_r(tabdoss[i], &saveoption);
+		i++;
+	}
 	free(tabdoss);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/14 17:27:56 by alsomvil          #+#    #+#              #
-#    Updated: 2018/06/21 13:09:16 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/07/02 23:13:28 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ SRC =	ft_atoi.c \
 		ft_strsub.c \
 		ft_strtrim.c \
 		ft_swap.c \
+		ft_swap_char.c \
 		ft_tolower.c \
 		ft_toupper.c \
 		get_next_line.c \

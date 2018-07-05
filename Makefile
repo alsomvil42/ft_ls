@@ -6,7 +6,7 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 17:04:04 by alsomvil          #+#    #+#              #
-#    Updated: 2018/07/02 01:11:01 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/07/03 00:39:43 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = main.c \
 	  order_bigtab.c \
 	  ft_affich_tab.c \
 	  fill_option.c \
+	  modif_droits.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
