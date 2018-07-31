@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_morelongchar.c                                  :+:      :+:    :+:   */
+/*   search_big_len.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/27 17:16:19 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/06/27 17:20:41 by alsomvil         ###   ########.fr       */
+/*   Created: 2018/07/11 16:09:39 by alsomvil          #+#    #+#             */
+/*   Updated: 2018/07/12 00:41:11 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		ft_morelongchar(char **tab)
+int		search_big_len_l(char **tab)
 {
 	int		i;
-	int		ret;
 	int		len;
 
 	i = 0;
-	ret = 0;
 	len = 0;
 	while (tab[i])
 	{
-		if ((ret = ft_strlen(tab[i])) > len)
-			len = ret;
+		if (tab[i] && ft_strlen(tab[i]) > len)
+			len = ft_strlen(tab[i]);
 		i++;
 	}
-	return (len);
+	return (len + 1);
 }

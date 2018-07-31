@@ -6,20 +6,25 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 17:04:04 by alsomvil          #+#    #+#              #
-#    Updated: 2018/07/03 00:39:43 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/07/30 16:21:59 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = main.c \
-	  apply_option.c \
+	  option_R/apply_option_r.c \
 	  check_tab_doss.c \
-	  ft_morelongchar.c \
-	  create_big_tab.c \
-	  create_tab_l.c \
-	  order_bigtab.c \
-	  ft_affich_tab.c \
+	  option_L/apply_option_l.c \
 	  fill_option.c \
 	  modif_droits.c \
+	  option_L/apply_option_l_fich.c \
+	  option_L/apply_option_l_doss.c \
+	  search_big_len.c \
+	  order_tab.c \
+	  No_option/apply_small_option.c \
+	  No_option/apply_small_option_fich.c \
+	  No_option/apply_small_option_doss.c \
+	  forfreetab.c \
+	  filloptiontwo.c \
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
@@ -34,7 +39,7 @@ all : $(NAME)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C libft
-	@gcc $(CFLAGS) -o $(NAME) -I /usr/local/include/ $(OBJ) libft/libft.a
+	@gcc $(CFLAGS) -g3 -o $(NAME) -I /usr/local/include/ $(OBJ) libft/libft.a
 	@echo "$(_GREEN)ft_ls compiled$(_END)"
 
 %.o: %.c
