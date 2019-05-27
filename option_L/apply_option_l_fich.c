@@ -6,13 +6,13 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/11 15:38:21 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/21 15:18:29 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/08/15 00:06:30 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../ft_ls.h"
 
-char	***create_tab_l_fich(char **tab, t_temp *saveoption)
+char		***create_tab_l_fich(char **tab, t_temp *saveoption)
 {
 	int				i;
 	int				j;
@@ -37,29 +37,16 @@ char	***create_tab_l_fich(char **tab, t_temp *saveoption)
 	return (tab_l);
 }
 
-void	affich_all(int i, int j, char ***tab_l, t_temp *saveoption)
+void		ft_affich_tab_fich(char ***tab_l, int i, int j, t_temp *saveoption)
 {
-	if (i > 5)
+	if (saveoption->mode == 1)
 	{
-		ft_putstr(tab_l[i][j]);
-		while (saveoption->lenfill++ < saveoption->len)
-			ft_putchar(' ');
+		ft_putstr("total ");
+		ft_putnbr(saveoption->totalblock);
+		saveoption->totalblock = 0;
+		ft_putstr("\n");
+		saveoption->mode = 0;
 	}
-	else if (i > 0 && i < 6)
-	{
-		while (saveoption->lenfill++ < saveoption->len)
-			ft_putchar(' ');
-		ft_putstr(tab_l[i][j]);
-	}
-	else
-	{
-		ft_putchar(' ');
-		ft_putstr(tab_l[i][j]);
-	}
-}
-
-void	ft_affich_tab_fich(char ***tab_l, int i, int j, t_temp *saveoption)
-{
 	while (tab_l[0][++j])
 	{
 		while (i >= 0)
@@ -77,7 +64,36 @@ void	ft_affich_tab_fich(char ***tab_l, int i, int j, t_temp *saveoption)
 	}
 }
 
-void	apply_option_l_fich(t_temp *saveoption)
+char		*modif_test(int nbchar, char *test)
+{
+	int		i;
+
+	i = 0;
+	while (i < nbchar)
+		i++;
+	test[i] = '\0';
+	return (test);
+}
+
+struct stat	fill_tab_l_two(char ***tab_l, int j)
+{
+	struct stat	buf;
+	char		test[1023];
+	char		*lnk;
+	int			nbchar;
+
+	if (lstat(tab_l[0][j], &buf) == 0 && S_ISLNK(buf.st_mode))
+	{
+		nbchar = readlink(tab_l[0][j], test, 1023);
+		lnk = ft_strjoin(tab_l[0][j], " -> ");
+		free(tab_l[0][j]);
+		tab_l[0][j] = ft_strjoin(lnk, modif_test(nbchar, test));
+		free(lnk);
+	}
+	return (buf);
+}
+
+void		apply_option_l_fich(t_temp *saveoption)
 {
 	int			i;
 	int			j;
@@ -89,7 +105,8 @@ void	apply_option_l_fich(t_temp *saveoption)
 	tab_l = create_tab_l_fich(saveoption->tabfich, saveoption);
 	while (tab_l[0][j])
 	{
-		lstat(tab_l[0][j], &buf);
+		buf = fill_tab_l_two(tab_l, j);
+		saveoption->totalblock = saveoption->totalblock + buf.st_blocks;
 		tab_l[1][j] = creation_date(&buf);
 		tab_l[2][j] = block_allocated(&buf);
 		tab_l[3][j] = group_id(&buf);
@@ -100,17 +117,5 @@ void	apply_option_l_fich(t_temp *saveoption)
 		j++;
 	}
 	ft_affich_tab_fich(tab_l, 6, -1, saveoption);
-	j = 0;
-	i = 0;
-	while (tab_l[i])
-	{
-		while (tab_l[i][j])
-			free(tab_l[i][j++]);
-		j = 0;
-		i++;
-	}
-	i = 0;
-	while (tab_l[i])
-		free(tab_l[i++]);
-	free(tab_l);
+	freebigtab(tab_l);
 }

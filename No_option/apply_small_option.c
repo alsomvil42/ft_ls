@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 23:28:34 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/30 16:08:26 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/08/11 13:23:47 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	apply_small_option(int ac, t_temp *saveoption)
 	int		i;
 
 	i = 0;
-	apply_small_option_fich(saveoption->tabfich, saveoption);
+	if (saveoption->nbfich > 0)
+		apply_small_option_fich(saveoption->tabfich, saveoption);
 	if (saveoption->nbdoss > 0 && saveoption->nbfich > 0)
 		ft_putchar('\n');
 	while (saveoption->tabdoss[i])

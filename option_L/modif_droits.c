@@ -6,11 +6,11 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/03 00:36:23 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/21 15:18:21 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/08/11 14:45:11 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../ft_ls.h"
 
 void	ft_for_other(char **str, struct stat *buf)
 {
@@ -54,6 +54,10 @@ char	ft_recup_type(struct stat *buf)
 		return ('c');
 	else if (S_ISBLK(buf->st_mode))
 		return ('b');
+	else if (S_ISFIFO(buf->st_mode))
+		return ('p');
+	else if (S_ISSOCK(buf->st_mode))
+		return ('s');
 	return ('\0');
 }
 

@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_affich_fail.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 19:59:33 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/08/13 06:47:10 by alsomvil         ###   ########.fr       */
+/*   Created: 2018/07/31 23:29:23 by alsomvil          #+#    #+#             */
+/*   Updated: 2018/08/13 06:51:09 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_ls.h"
 
-void	ft_putstr(char const *s)
+void	ft_affich_fail(char **tab)
 {
-	write(1, s, ft_strlen(s));
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		ft_putstr("ls: ");
+		ft_putstr(tab[i]);
+		ft_putstr(": No such file or directory");
+		ft_putstr("\n");
+		i++;
+	}
 }

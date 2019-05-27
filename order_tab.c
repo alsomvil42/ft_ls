@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/11 16:28:32 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/30 16:06:30 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/08/15 01:13:43 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,32 @@ char	**order_tab(char **tab, t_temp *saveoption, int li_left, int li_right)
 	if (li_right > s.left)
 		order_tab(s.tab, saveoption, s.left, li_right);
 	return (s.tab);
+}
+
+char	**order_after_bigtab(int nb, char *doss, t_temp *saveoption)
+{
+	DIR				*dirp;
+	char			**tab;
+	int				i;
+	struct dirent	*ent;
+	char			*tempdoss;
+
+	i = 0;
+	dirp = opendir(doss);
+	tab = malloc(sizeof(char *) * (nb + 2));
+	while ((ent = readdir(dirp)) != NULL)
+	{
+		if (verifstat(doss, ent->d_name, saveoption) == 1)
+			tab[i++] = ft_strdup(ent->d_name);
+	}
+	tab[i] = NULL;
+	order_tab(tab, saveoption, 0, nb - 1);
+	tempdoss = ft_strjoin(doss, "/");
+	if (saveoption->t)
+		tab = test_before_order_two(tempdoss, tab, saveoption, nb);
+	if (saveoption->r)
+		tab = inversetab(tab);
+	closedir(dirp);
+	free(tempdoss);
+	return (tab);
 }

@@ -6,7 +6,7 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 15:51:24 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/30 15:52:05 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/08/14 12:36:09 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,24 @@ void	freesave(t_temp *saveoption)
 	int		i;
 
 	i = 0;
-	while (saveoption->tabdoss[i])
+	if (saveoption->tabdoss)
 	{
-		free(saveoption->tabdoss[i]);
-		i++;
+		while (saveoption->tabdoss[i])
+			free(saveoption->tabdoss[i++]);
+		free(saveoption->tabdoss);
 	}
-	free(saveoption->tabdoss);
 	i = 0;
-	while (saveoption->tabfich[i])
-		free(saveoption->tabfich[i++]);
-	free(saveoption->tabfich);
+	if (saveoption->tabfich)
+	{
+		while (saveoption->tabfich[i])
+			free(saveoption->tabfich[i++]);
+		free(saveoption->tabfich);
+	}
+	i = 0;
+	if (saveoption->fail > 0)
+	{
+		while (saveoption->tabfail[i])
+			free(saveoption->tabfail[i++]);
+		free(saveoption->tabfail);
+	}
 }

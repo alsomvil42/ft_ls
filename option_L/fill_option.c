@@ -6,11 +6,11 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/02 00:50:49 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/30 16:19:14 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/08/13 03:59:50 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../ft_ls.h"
 
 char	*nb_node(struct stat *buf)
 {
@@ -56,52 +56,37 @@ char	*block_allocated(struct stat *buf)
 	char	*forfree;
 	int		maj;
 	int		min;
+	char	*test;
 
 	if (S_ISCHR(buf->st_mode) || S_ISBLK(buf->st_mode))
 	{
 		maj = major(buf->st_rdev);
 		min = minor(buf->st_rdev);
-		if (ft_strlen(ft_itoa(min)) == 3)
-			temp = ft_strjoin(ft_itoa(maj), ", ");
-		else if (ft_strlen(ft_itoa(min)) == 2)
-			temp = ft_strjoin(ft_itoa(maj), ",  ");
-		else if (ft_strlen(ft_itoa(min)) == 1)
-			temp = ft_strjoin(ft_itoa(maj), ",   ");
-		forfree = ft_strjoin(temp, ft_itoa(min));
+		test = ft_itoa(maj);
+		temp = block_two(test, min);
+		free(test);
+		test = ft_itoa(min);
+		forfree = ft_strjoin(temp, test);
 		free(temp);
+		free(test);
 		temp = forfree;
 	}
 	else
-	{
-		forfree = ft_itoa(buf->st_size);
-		temp = ft_strdup(forfree);
-		free(forfree);
-	}
-	return (temp);
+		temp = ft_itoa(buf->st_size);
+	test = ft_strjoin(temp, " ");
+	free(temp);
+	return (test);
 }
 
 char	*creation_date(struct stat *buf)
 {
 	struct tm	*p;
 	time_t		fff;
-	char		*temp;
-	char		*temp2;
+	char		*test;
 	char		*forfree;
 
 	fff = buf->st_mtime;
-	p = localtime(&fff);
-	forfree = convert_mon(p->tm_mon);
-	temp = ft_strjoin(forfree, " ");
-	free(forfree);
-	forfree = convert_day(p->tm_mday);
-	temp2 = ft_strjoin(temp, forfree);
-	free(temp);
-	free(forfree);
-	temp = ft_strjoin(temp2, " ");
-	forfree = convert_hour(p->tm_hour, p->tm_min);
-	free(temp2);
-	temp2 = ft_strjoin(temp, forfree);
-	free(temp);
-	free(forfree);
-	return (temp2);
+	test = ctime(&fff);
+	forfree = convert_mon(fff, test);
+	return (forfree);
 }

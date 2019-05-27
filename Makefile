@@ -6,25 +6,31 @@
 #    By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 17:04:04 by alsomvil          #+#    #+#              #
-#    Updated: 2018/07/30 16:21:59 by alsomvil         ###   ########.fr        #
+#    Updated: 2018/08/15 00:35:55 by alsomvil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = main.c \
-	  option_R/apply_option_r.c \
+	  put_message.c \
 	  check_tab_doss.c \
-	  option_L/apply_option_l.c \
-	  fill_option.c \
-	  modif_droits.c \
-	  option_L/apply_option_l_fich.c \
-	  option_L/apply_option_l_doss.c \
-	  search_big_len.c \
-	  order_tab.c \
-	  No_option/apply_small_option.c \
-	  No_option/apply_small_option_fich.c \
-	  No_option/apply_small_option_doss.c \
 	  forfreetab.c \
-	  filloptiontwo.c \
+	  ft_affich_fail.c \
+	  order_tab.c \
+	  search_big_len.c \
+	  test_before_order.c \
+	  verifstat.c \
+	  No_option/apply_small_option.c \
+	  No_option/apply_small_option_doss.c \
+	  No_option/apply_small_option_fich.c \
+	  option_L/apply_option_l.c \
+	  option_L/apply_option_l_doss.c \
+	  option_L/apply_option_l_fich.c \
+	  option_L/create_tab_l.c \
+	  option_L/fill_option.c \
+	  option_L/filloptiontwo.c \
+	  option_L/modif_droits.c \
+	  option_R/apply_option_r.c \
+
 
 OBJ = $(SRC:.c=.o)
 CC = gcc

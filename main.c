@@ -6,30 +6,45 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 14:21:49 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/30 16:22:02 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/08/15 00:57:44 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	stock_arg(int ac, char **av, t_temp *saveoption)
+int		check_exist_option(char *av, int i, t_temp *saveoption)
 {
-	int		i;
-
-	i = 0;
-	check_tab_doss(i, ac, av, saveoption);
+	if (av[i] && LETTER || LETTERTWO)
+	{
+		if (av[i] == '\0')
+		{
+			ft_putstr("ERREUR");
+			return (2);
+		}
+		while (av[i])
+		{
+			if (NOTLETTER && NOTLETTERTWO)
+				return (put_message(av[i]));
+			else if (av[i] == '\0')
+			{
+				saveoption->nboption++;
+				return (0);
+			}
+			i++;
+		}
+		saveoption->nboption++;
+	}
+	else
+		return (put_message(av[i]));
+	return (0);
 }
 
-void	check_option(char **av, t_temp *saveoption)
+int		check_option(char **av, t_temp *saveoption, int i, int j)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 1;
 	while (av[j] && av[j][i] == '-')
 	{
-		saveoption->nboption++;
+		if (check_exist_option(av[j], i + 1, saveoption) == 1)
+			return (1);
 		while (av[j][i])
 		{
 			if (av[j][i] == 'l')
@@ -41,12 +56,13 @@ void	check_option(char **av, t_temp *saveoption)
 			if (av[j][i] == 't')
 				saveoption->t = 1;
 			if (av[j][i] == 'R')
-				saveoption->R = 1;
+				saveoption->big_r = 1;
 			i++;
 		}
 		i = 0;
 		j++;
 	}
+	return (0);
 }
 
 void	initstruct(t_temp *saveoption)
@@ -55,7 +71,8 @@ void	initstruct(t_temp *saveoption)
 	saveoption->r = 0;
 	saveoption->a = 0;
 	saveoption->t = 0;
-	saveoption->R = 0;
+	saveoption->big_r = 0;
+	saveoption->mode = 0;
 	saveoption->nboption = 0;
 	saveoption->nbfich = 0;
 	saveoption->nbdoss = 0;
@@ -64,16 +81,23 @@ void	initstruct(t_temp *saveoption)
 	saveoption->lenfill = 0;
 	saveoption->len = 0;
 	saveoption->tabdoss = NULL;
+	saveoption->tabfail = NULL;
+	saveoption->forfree = NULL;
 	saveoption->tabfich = NULL;
 	saveoption->tab_l = NULL;
+	saveoption->direction = NULL;
+	saveoption->directiontemp = NULL;
+	saveoption->nb = 0;
 }
 
 void	pasdeplace(t_temp *saveoption, int i)
 {
-	if (saveoption->l)
+	if (saveoption->l && saveoption->nbfich > 0)
 		apply_option_l_fich(saveoption);
-	else
+	else if (saveoption->nbfich > 0)
 		apply_small_option_fich(saveoption->tabfich, saveoption);
+	if (saveoption->nbfich > 0 && saveoption->nbdoss > 0)
+		ft_putstr("\n");
 	while (saveoption->tabdoss[i])
 	{
 		if (saveoption->nbfich > 0 || saveoption->nbdoss > 1)
@@ -94,16 +118,15 @@ int		main(int ac, char **av)
 
 	i = 0;
 	initstruct(&saveoption);
-	check_option(av, &saveoption);
-	stock_arg(ac, av, &saveoption);
-	if (saveoption.l && !saveoption.R)
+	if (check_option(av, &saveoption, 0, 1) == 1)
+		return (0);
+	check_tab_doss(saveoption.nboption + 1, ac, av, &saveoption);
+	if (saveoption.l && !saveoption.big_r)
 		apply_option_l(ac, &saveoption);
-	else if (!saveoption.l && !saveoption.R)
+	if (!saveoption.l && !saveoption.big_r)
 		apply_small_option(ac, &saveoption);
-	else if (saveoption.R)
-	{
+	else if (saveoption.big_r)
 		pasdeplace(&saveoption, i);
-	}
 	freesave(&saveoption);
 	initstruct(&saveoption);
 	return (0);

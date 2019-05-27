@@ -6,11 +6,11 @@
 /*   By: alsomvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/11 14:11:30 by alsomvil          #+#    #+#             */
-/*   Updated: 2018/07/30 11:00:47 by alsomvil         ###   ########.fr       */
+/*   Updated: 2018/08/14 18:22:29 by alsomvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../ft_ls.h"
 
 void	apply_option_l(int ac, t_temp *saveoption)
 {
